@@ -191,6 +191,6 @@ version, ver: 显示版本号并退出。</value>
     <value>BasicThemer 2 by Ingan121</value>
   </data>
   <data name="MsgAlreadyRunning" xml:space="preserve">
-    <value>BasicThemer 2 [{0}] 已在运行，仅允许启动一个实例。</value>
+    <value>BasicThemer 2 已在运行，仅允许启动一个实例。</value>
   </data>
 </root>

@@ -122,7 +122,7 @@ namespace BasicThemer2
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(201, 12);
             this.InfoLabel.TabIndex = 6;
-            this.InfoLabel.Text = "v0.6.0";
+            this.InfoLabel.Text = "v0.6.1";
             // 
             // FrameworkTagLabel
             // 
@@ -131,7 +131,7 @@ namespace BasicThemer2
             this.FrameworkTagLabel.Name = "FrameworkTagLabel";
             this.FrameworkTagLabel.Size = new System.Drawing.Size(31, 12);
             this.FrameworkTagLabel.TabIndex = 29;
-            this.FrameworkTagLabel.Text = "Modern";
+            this.FrameworkTagLabel.Text = "";
             // 
             // RevModeChkBox
             // 

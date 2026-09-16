@@ -49,13 +49,14 @@
        않습니다. WPF(Windows Presentation Foundation) 애플리케이션은 자동으로 DPI를 인식하며 
        옵트인할 필요가 없습니다. 이 설정으로 옵트인하며 .NET Framework 4.6을 대상으로 하는 
        Windows Forms 애플리케이션은 app.config에서 'EnableWindowsFormsHighDpiAutoResizing' 설정도 'true'로 지정합니다. -->
-  <!--
   <application xmlns="urn:schemas-microsoft-com:asm.v3">
     <windowsSettings>
-      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
+      <!-- Windows 10 1607 미만용 폴백: dpiAware 는 dpiAwareness 보다 먼저 와야 합니다. -->
+      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>
+      <!-- DPI 인식 선언은 exe에 임베딩되므로 파일명을 바꾸거나 exe만 복사해도 유지됩니다. -->
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor</dpiAwareness>
     </windowsSettings>
   </application>
-  -->
 
   <!-- Windows 공용 컨트롤 및 대화 상자의 테마 사용(Windows XP 이상) -->
   <!--

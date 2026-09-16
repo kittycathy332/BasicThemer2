@@ -208,11 +208,6 @@ namespace BasicThemer2
             ExitWndBtn.Text = Strings.Exit;
             BrandLabel.Text = Strings.BrandLine;
             InfoLabel.Text = "v" + ver.ToString();
-#if MODERN
-            FrameworkTagLabel.Text = "Modern";
-#else
-            FrameworkTagLabel.Text = "Legacy";
-#endif
             RevModeChkBox.Text = Strings.RevertingMode;
             ExclExtWndsChkBox.Text = Strings.ExclExtWnds;
             PauseChkBox.Text = Strings.Pause;
@@ -231,11 +226,7 @@ namespace BasicThemer2
             dbgBtn.Text = Strings.DebugBtn;
             ForkLinkLabel.Text = Strings.ForkLink;
             AutoStartChkBox.Text = Strings.StartWithWindows;
-            #if MODERN
-            this.Text = Strings.AppName + " - Modern";
-#else
-            this.Text = Strings.AppName + " - Legacy";
-#endif
+            this.Text = Strings.AppName;
 
             // Reflow controls whose positions depend on localized text length so
             // no label/checkbox overlaps its following control in any language
@@ -290,9 +281,6 @@ namespace BasicThemer2
             // numeric box and "ms" suffix follow it from left to right
             TimerSpeedBox.Left = label1.Right + 4;
             MsOrErrLabel.Left = TimerSpeedBox.Right + 4;
-
-            // Put the framework tag right after the version text
-            FrameworkTagLabel.Left = InfoLabel.Right + 4;
 
             // Place each bottom hyperlink right after its label text, shifting automatically
             // with the localized text length

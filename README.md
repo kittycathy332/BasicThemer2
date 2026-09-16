@@ -18,7 +18,6 @@
 - **Exclusion list** — exclude specific processes and external windows from theming
 - **Whitelist mode** for inverted behavior
 - Configurable **timer speed**, pause, and verbose logging
-- **Automatic update check** against the fork's `gitVersion.txt`
 - **Dual-language UI** (简体中文 / English) with live switching
 
 ---
@@ -37,14 +36,22 @@
 
 ## 🚀 Building
 
-Built with **Visual Studio 2019**. Two .NET Framework targets are produced by `build.bat`:
+Built with **Visual Studio 2019**. A single target is produced by `build.bat`:
 
-| Target          | Tag      | Output                            |
-|-----------------|----------|-----------------------------------|
-| .NET Framework 4.0 | `Legacy` | `bin\v4.0\Release\BasicThemer2.exe` |
-| .NET Framework 4.8 | `Modern` | `bin\v4.8\Release\BasicThemer2.exe` |
+| Target             | Output                        |
+|--------------------|-------------------------------|
+| .NET Framework 4.0 | `bin\Release\BasicThemer2.exe` |
 
-Both versions are **self-contained single-file** executables (localization is embedded — no extra DLLs required).
+One executable covers **Windows Vista – 11**. .NET Framework 4.5–4.8 are in-place
+updates of the same CLR (`v4.0.30319`), so a 4.0-targeted binary runs on whatever 4.x
+runtime is installed — which is what lets the same file boot on Vista (max .NET 4.6.1)
+and on Windows 11.
+
+High-DPI (PerMonitorV2) is declared in `app.manifest`, which is **embedded in the exe**:
+renaming the exe or copying it alone keeps the behaviour, and older systems that do not
+recognize the element simply ignore it.
+
+The build is **self-contained single-file** (localization is embedded — no extra DLLs required).
 
 ---
 

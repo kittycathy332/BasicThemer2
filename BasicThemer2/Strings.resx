@@ -250,6 +250,6 @@ Click "No" to continue without administrator privileges; basic theme borders wil
     <value>BasicThemer 2 by Ingan121</value>
   </data>
   <data name="MsgAlreadyRunning" xml:space="preserve">
-    <value>BasicThemer 2 [{0}] is already running. Only one instance is allowed.</value>
+    <value>BasicThemer 2 is already running. Only one instance is allowed.</value>
   </data>
 </root>

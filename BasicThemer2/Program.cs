@@ -38,18 +38,12 @@ namespace BasicThemer2
                 return;
             }
 
-            // Single-instance guard. The mutex name differs per target framework so that
-            // the .NET 4.0 build and the .NET 4.8 build are each limited to one instance.
-#if MODERN
-            string frameworkTag = "Modern";
-#else
-            string frameworkTag = "Legacy";
-#endif
-            using (var instanceMutex = new Mutex(true, "Local\\BasicThemer2" + frameworkTag, out bool createdNew))
+            // Single-instance guard.
+            using (var instanceMutex = new Mutex(true, "Local\\BasicThemer2", out bool createdNew))
             {
                 if (!createdNew)
                 {
-                    MessageBox.Show(string.Format(Strings.MsgAlreadyRunning, frameworkTag), Strings.AppName);
+                    MessageBox.Show(Strings.MsgAlreadyRunning, Strings.AppName);
                     return;
                 }
 

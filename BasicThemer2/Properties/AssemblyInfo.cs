@@ -3,36 +3,57 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
-// 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
-// 이러한 특성 값을 변경하세요.
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+
+// Win32 VERSIONINFO mapping (Explorer "Details" tab):
+//   AssemblyTitle                -> File description
+//   AssemblyDescription          -> Comments
+//   AssemblyCompany              -> Company
+//   AssemblyProduct              -> Product name
+//   AssemblyCopyright            -> Copyright
+//   AssemblyTrademark            -> Legal trademarks
+//   AssemblyFileVersion          -> File version
+//   AssemblyInformationalVersion -> Product version
+// Attributes left empty are hidden from the Details tab entirely.
 [assembly: AssemblyTitle("BasicThemer 2")]
-[assembly: AssemblyDescription("Apply the basic theme of Windows Vista-7 to Windows Vista-10, without disabling the DWM composition (https://github.com/Ingan121/BasicThemer2)")]
+[assembly: AssemblyDescription("Apply the Windows Vista/7 basic theme to Windows Vista-11, without disabling the DWM composition.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+// NOTE: Explorer always labels this row "Company" (公司) -- the label itself comes from
+// the shell and cannot be renamed from here, only the value can. Indie programs commonly
+// use it for the maker's name, so the value below reads as a credit rather than a company.
+// Set it to "" if you would rather hide the row entirely (empty attributes are hidden).
+[assembly: AssemblyCompany("Ingan121 (original), kittycathy332 (fork)")]
 [assembly: AssemblyProduct("BasicThemer 2")]
-[assembly: AssemblyCopyright("Copyright © 2020 Ingan121 (MIT)")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © 2026 kittycathy332 (MIT)")]
+[assembly: AssemblyTrademark("Released under the MIT License")]
 [assembly: AssemblyCulture("")]
 
-// ComVisible을 false로 설정하면 이 어셈블리의 형식이 COM 구성 요소에 
-// 표시되지 않습니다. COM에서 이 어셈블리의 형식에 액세스하려면
-// 해당 형식에 대해 ComVisible 특성을 true로 설정하세요.
+// Shows 0.6.1 as the product version as well (same value as the file version).
+[assembly: AssemblyInformationalVersion("0.6.1")]
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
+// COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// 이 프로젝트가 COM에 노출되는 경우 다음 GUID는 typelib의 ID를 나타냅니다.
+// The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("78ad378d-446e-461d-a415-a22a3feae33e")]
 
-// 어셈블리의 버전 정보는 다음 네 가지 값으로 구성됩니다.
+// Version information for an assembly consists of the following four values:
 //
-//      주 버전
-//      부 버전 
-//      빌드 번호
-//      수정 버전
+//      Major Version
+//      Minor Version
+//      Build Number
+//      Revision
 //
-// 모든 값을 지정하거나 아래와 같이 '*'를 사용하여 빌드 번호 및 수정 번호를
-// 기본값으로 할 수 있습니다.
+// You can specify all the values or you can default the Build and Revision Numbers
+// by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.6.0")]
-[assembly: AssemblyFileVersion("0.6.0")]
+// NOTE: keep AssemblyVersion, AssemblyFileVersion and AssemblyInformationalVersion
+// in sync, and update the version marker in the repo root "latest.txt" as well --
+// that file is what the in-app update check compares against.
+[assembly: AssemblyVersion("0.6.1")]
+[assembly: AssemblyFileVersion("0.6.1")]
 [assembly: NeutralResourcesLanguage("en")]

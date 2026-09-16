@@ -2,8 +2,9 @@
 setlocal
 
 REM ============================================================
-REM  BasicThemer2 - Dual-target one-key build script
-REM  Builds both .NET Framework 4.0 and .NET Framework 4.8
+REM  BasicThemer2 - Single-target one-key build script
+REM  Builds one .NET Framework 4.0 executable that runs on
+REM  Windows Vista through Windows 11.
 REM ============================================================
 
 set "PROJECT_DIR=%~dp0BasicThemer2"
@@ -28,27 +29,15 @@ if not "%1"=="" set "CONFIG=%1"
 
 set "FAILED=0"
 
-REM ---------- .NET Framework 4.0 ----------
-echo [1/2] Build .NET Framework 4.0 (%CONFIG%)...
-"%MSBUILD%" "%PROJECT_FILE%" /t:Rebuild /p:Configuration=%CONFIG% /p:TargetFrameworkVersion=v4.0 /verbosity:minimal
+REM ---------- Build ----------
+echo [1/1] Build .NET Framework 4.0 (%CONFIG%)...
+"%MSBUILD%" "%PROJECT_FILE%" /t:Rebuild /p:Configuration=%CONFIG% /verbosity:minimal
 if errorlevel 1 (
     echo.
-    echo [FAILED] net4.0 build error!
+    echo [FAILED] build error!
     set "FAILED=1"
 ) else (
-    echo [OK] net4.0 -^> bin\v4.0\%CONFIG%\BasicThemer2.exe
-)
-echo.
-
-REM ---------- .NET Framework 4.8 ----------
-echo [2/2] Build .NET Framework 4.8 (%CONFIG%)...
-"%MSBUILD%" "%PROJECT_FILE%" /t:Rebuild /p:Configuration=%CONFIG% /p:TargetFrameworkVersion=v4.8 /verbosity:minimal
-if errorlevel 1 (
-    echo.
-    echo [FAILED] net4.8 build error!
-    set "FAILED=1"
-) else (
-    echo [OK] net4.8 -^> bin\v4.8\%CONFIG%\BasicThemer2.exe
+    echo [OK] -^> bin\%CONFIG%\BasicThemer2.exe
 )
 echo.
 
