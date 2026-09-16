@@ -28,7 +28,7 @@
 
 <img src="docs/imgs/10.png" alt="Windows 10" width="720" />
 
-<img src="docs/imgs/8x.PNG" alt="Windows 8" width="240" />&nbsp;&nbsp;<img src="docs/imgs/7.PNG" alt="Windows 7" width="240" />&nbsp;&nbsp;<img src="docs/imgs/Vista.JPG" alt="Windows Vista" width="240" />
+<img src="docs/imgs/8x.PNG" alt="Windows 8" width="240" />&nbsp;&nbsp;<img src="docs/imgs/7.PNG" alt="Windows 7" width="240" />&nbsp;&nbsp;<img src="docs/imgs/Vista.PNG" alt="Windows Vista" width="240" />
 
 </div>
 
