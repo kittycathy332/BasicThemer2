@@ -1,4 +1,4 @@
-﻿namespace BasicThemer2
+namespace BasicThemer2
 {
     partial class BasicThemer2
     {
@@ -37,10 +37,13 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitWndBtn = new System.Windows.Forms.Button();
             this.InfoLabel = new System.Windows.Forms.Label();
+            this.FrameworkTagLabel = new System.Windows.Forms.Label();
             this.RevModeChkBox = new System.Windows.Forms.CheckBox();
             this.ExclExtWndsChkBox = new System.Windows.Forms.CheckBox();
             this.PauseChkBox = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.ForkLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.BrandLabel = new System.Windows.Forms.Label();
             this.DoLogChkBox = new System.Windows.Forms.CheckBox();
             this.OpenLogBtn = new System.Windows.Forms.Button();
             this.ExclListBox = new System.Windows.Forms.ListBox();
@@ -53,7 +56,11 @@
             this.MsOrErrLabel = new System.Windows.Forms.Label();
             this.WhitelistModeChkBox = new System.Windows.Forms.CheckBox();
             this.AutoUpdChkChkBox = new System.Windows.Forms.CheckBox();
+            this.AutoStartChkBox = new System.Windows.Forms.CheckBox();
             this.UpdChkBtn = new System.Windows.Forms.Button();
+            this.WatermarkLabel = new System.Windows.Forms.Label();
+            this.LanguageLabel = new System.Windows.Forms.Label();
+            this.LangCombo = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,11 +118,20 @@
             // InfoLabel
             // 
             this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Location = new System.Drawing.Point(10, 345);
+            this.InfoLabel.Location = new System.Drawing.Point(10, 374);
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(201, 12);
             this.InfoLabel.TabIndex = 6;
-            this.InfoLabel.Text = "BasicThemer 2 v{ver} by Ingan121";
+            this.InfoLabel.Text = "v0.6.0";
+            // 
+            // FrameworkTagLabel
+            // 
+            this.FrameworkTagLabel.AutoSize = true;
+            this.FrameworkTagLabel.Location = new System.Drawing.Point(55, 374);
+            this.FrameworkTagLabel.Name = "FrameworkTagLabel";
+            this.FrameworkTagLabel.Size = new System.Drawing.Size(31, 12);
+            this.FrameworkTagLabel.TabIndex = 29;
+            this.FrameworkTagLabel.Text = "Modern";
             // 
             // RevModeChkBox
             // 
@@ -158,7 +174,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(255, 345);
+            this.linkLabel1.Location = new System.Drawing.Point(255, 346);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(42, 12);
             this.linkLabel1.TabIndex = 10;
@@ -217,11 +233,15 @@
             // 
             // AddBtn
             // 
+            this.AddBtn.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
             this.AddBtn.Location = new System.Drawing.Point(178, 202);
             this.AddBtn.Name = "AddBtn";
+            this.AddBtn.Padding = new System.Windows.Forms.Padding(0);
             this.AddBtn.Size = new System.Drawing.Size(48, 23);
             this.AddBtn.TabIndex = 15;
             this.AddBtn.Text = "&Add";
+            this.AddBtn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AddBtn.UseCompatibleTextRendering = true;
             this.AddBtn.UseVisualStyleBackColor = true;
             this.AddBtn.Click += new System.EventHandler(this.AddBtn_Click);
             // 
@@ -237,10 +257,11 @@
             // 
             // dbgBtn
             // 
-            this.dbgBtn.Location = new System.Drawing.Point(305, 360);
+            this.dbgBtn.Location = new System.Drawing.Point(210, 379);
             this.dbgBtn.Name = "dbgBtn";
-            this.dbgBtn.Size = new System.Drawing.Size(13, 15);
+            this.dbgBtn.Size = new System.Drawing.Size(90, 23);
             this.dbgBtn.TabIndex = 17;
+            this.dbgBtn.Text = "Debug";
             this.dbgBtn.UseVisualStyleBackColor = true;
             this.dbgBtn.Click += new System.EventHandler(this.dbgBtn_Click);
             // 
@@ -306,13 +327,78 @@
             this.UpdChkBtn.UseVisualStyleBackColor = true;
             this.UpdChkBtn.Click += new System.EventHandler(this.UpdChkBtn_Click);
             // 
+            // AutoStartChkBox
+            // 
+            this.AutoStartChkBox.AutoSize = true;
+            this.AutoStartChkBox.Location = new System.Drawing.Point(10, 413);
+            this.AutoStartChkBox.Name = "AutoStartChkBox";
+            this.AutoStartChkBox.Size = new System.Drawing.Size(90, 16);
+            this.AutoStartChkBox.TabIndex = 28;
+            this.AutoStartChkBox.Text = "Start with Windows";
+            this.AutoStartChkBox.UseVisualStyleBackColor = true;
+            this.AutoStartChkBox.CheckedChanged += new System.EventHandler(this.AutoStartChkBox_CheckedChanged);
+            // 
+            // WatermarkLabel
+            // 
+            this.WatermarkLabel.AutoSize = true;
+            this.WatermarkLabel.Location = new System.Drawing.Point(10, 360);
+            this.WatermarkLabel.Name = "WatermarkLabel";
+            this.WatermarkLabel.Size = new System.Drawing.Size(200, 12);
+            this.WatermarkLabel.TabIndex = 23;
+            this.WatermarkLabel.Text = "Fork by 萌之大喵";
+            // 
+            // LanguageLabel
+            // 
+            this.LanguageLabel.AutoSize = true;
+            this.LanguageLabel.Location = new System.Drawing.Point(10, 394);
+            this.LanguageLabel.Name = "LanguageLabel";
+            this.LanguageLabel.Size = new System.Drawing.Size(53, 12);
+            this.LanguageLabel.TabIndex = 24;
+            this.LanguageLabel.Text = "Language: ";
+            // 
+            // LangCombo
+            // 
+            this.LangCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.LangCombo.FormattingEnabled = true;
+            this.LangCombo.Items.AddRange(new object[] {
+            "English",
+            "中文"});
+            this.LangCombo.Location = new System.Drawing.Point(70, 391);
+            this.LangCombo.Name = "LangCombo";
+            this.LangCombo.Size = new System.Drawing.Size(90, 20);
+            this.LangCombo.TabIndex = 25;
+            this.LangCombo.SelectedIndexChanged += new System.EventHandler(this.LangCombo_SelectedIndexChanged);
+            // 
+            // ForkLinkLabel
+            // 
+            this.ForkLinkLabel.AutoSize = true;
+            this.ForkLinkLabel.Location = new System.Drawing.Point(248, 360);
+            this.ForkLinkLabel.Name = "ForkLinkLabel";
+            this.ForkLinkLabel.Size = new System.Drawing.Size(31, 12);
+            this.ForkLinkLabel.TabIndex = 26;
+            this.ForkLinkLabel.TabStop = true;
+            this.ForkLinkLabel.Text = "Fork";
+            this.ForkLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ForkLinkLabel_LinkClicked);
+            // 
+            // BrandLabel
+            // 
+            this.BrandLabel.AutoSize = true;
+            this.BrandLabel.Location = new System.Drawing.Point(10, 346);
+            this.BrandLabel.Name = "BrandLabel";
+            this.BrandLabel.Size = new System.Drawing.Size(76, 12);
+            this.BrandLabel.TabIndex = 27;
+            this.BrandLabel.Text = "BasicThemer 2 by Ingan121";
+            // 
             // BasicThemer2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(310, 365);
+            this.ClientSize = new System.Drawing.Size(360, 440);
+            this.Controls.Add(this.BrandLabel);
+            this.Controls.Add(this.ForkLinkLabel);
             this.Controls.Add(this.UpdChkBtn);
             this.Controls.Add(this.AutoUpdChkChkBox);
+            this.Controls.Add(this.AutoStartChkBox);
             this.Controls.Add(this.WhitelistModeChkBox);
             this.Controls.Add(this.TimerSpeedBox);
             this.Controls.Add(this.MsOrErrLabel);
@@ -329,8 +415,12 @@
             this.Controls.Add(this.ExclExtWndsChkBox);
             this.Controls.Add(this.RevModeChkBox);
             this.Controls.Add(this.InfoLabel);
+            this.Controls.Add(this.FrameworkTagLabel);
             this.Controls.Add(this.ExitWndBtn);
             this.Controls.Add(this.ExclsOrInclsLabel);
+            this.Controls.Add(this.WatermarkLabel);
+            this.Controls.Add(this.LanguageLabel);
+            this.Controls.Add(this.LangCombo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -353,6 +443,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Button ExitWndBtn;
         private System.Windows.Forms.Label InfoLabel;
+        private System.Windows.Forms.Label FrameworkTagLabel;
         private System.Windows.Forms.CheckBox RevModeChkBox;
         private System.Windows.Forms.CheckBox ExclExtWndsChkBox;
         private System.Windows.Forms.CheckBox PauseChkBox;
@@ -369,7 +460,13 @@
         private System.Windows.Forms.Label MsOrErrLabel;
         private System.Windows.Forms.CheckBox WhitelistModeChkBox;
         private System.Windows.Forms.CheckBox AutoUpdChkChkBox;
+        private System.Windows.Forms.CheckBox AutoStartChkBox;
         private System.Windows.Forms.Button UpdChkBtn;
+        private System.Windows.Forms.Label WatermarkLabel;
+        private System.Windows.Forms.Label LanguageLabel;
+        private System.Windows.Forms.ComboBox LangCombo;
+        private System.Windows.Forms.LinkLabel ForkLinkLabel;
+        private System.Windows.Forms.Label BrandLabel;
     }
 }
 

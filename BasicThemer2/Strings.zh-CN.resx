@@ -1,64 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -121,127 +62,127 @@
     <value>BasicThemer 2</value>
   </data>
   <data name="ExclsOrInclsLabel" xml:space="preserve">
-    <value>Exclusions</value>
+    <value>排除列表</value>
   </data>
   <data name="IncLabels" xml:space="preserve">
-    <value>Inclusions</value>
+    <value>包含列表</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>&amp;Show</value>
+    <value>显示(&amp;S)</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>&amp;Exit</value>
+    <value>退出(&amp;E)</value>
   </data>
   <data name="RevertingMode" xml:space="preserve">
-    <value>&amp;Reverting Mode</value>
+    <value>还原模式(&amp;R)</value>
   </data>
   <data name="ExclExtWnds" xml:space="preserve">
-    <value>Exclude all windows with extended &amp;client area</value>
+    <value>排除所有扩展客户区窗口</value>
   </data>
   <data name="Pause" xml:space="preserve">
-    <value>&amp;Pause</value>
+    <value>暂停(&amp;P)</value>
   </data>
   <data name="GitHub" xml:space="preserve">
-    <value>&amp;GitHub</value>
+    <value>GitHub(&amp;G)</value>
   </data>
   <data name="EnableLogging" xml:space="preserve">
-    <value>Enable &amp;Logging</value>
+    <value>启动日志(&amp;L)</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>&amp;Open log file</value>
+    <value>打开日志文件(&amp;O)</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>&amp;Add</value>
+    <value>添加</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>&amp;Delete</value>
+    <value>删除(&amp;D)</value>
   </data>
   <data name="TimerSpeed" xml:space="preserve">
-    <value>Timer speed: </value>
+    <value>计时器速度: </value>
   </data>
   <data name="Ms" xml:space="preserve">
-    <value>ms</value>
+    <value>毫秒</value>
   </data>
   <data name="WhitelistMode" xml:space="preserve">
-    <value>Whitelist Mode</value>
+    <value>白名单模式</value>
   </data>
   <data name="AutoUpdChk" xml:space="preserve">
-    <value>Automatically</value>
+    <value>自动</value>
   </data>
   <data name="StartWithWindows" xml:space="preserve">
-    <value>Start with Windows</value>
+    <value>开机自启</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value>check for updates</value>
+    <value>检查更新</value>
   </data>
   <data name="CheckingForUpdates" xml:space="preserve">
-    <value>checking…</value>
+    <value>检查中…</value>
   </data>
   <data name="Err" xml:space="preserve">
-    <value>Err!</value>
+    <value>错误!</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language: </value>
+    <value>语言: </value>
   </data>
   <data name="MsgLogFileNotExist" xml:space="preserve">
-    <value>Log file doesn't exist!</value>
+    <value>日志文件不存在!</value>
   </data>
   <data name="MsgNewVerAvailable" xml:space="preserve">
-    <value>New version of BasicThemer 2 is available. Download it now?</value>
+    <value>BasicThemer 2 有可用更新，是否现在下载?</value>
   </data>
   <data name="MsgLatestVersion" xml:space="preserve">
-    <value>You are running the latest version of BasicThemer 2.</value>
+    <value>您已运行 BasicThemer 2 的最新版本。</value>
   </data>
   <data name="MsgUnreleasedVersion" xml:space="preserve">
-    <value>You are running a unreleased version of BasicThemer 2.</value>
+    <value>您正运行 BasicThemer 2 的未发布版本。</value>
   </data>
   <data name="MsgUpdateFailed" xml:space="preserve">
-    <value>Update check failed!</value>
+    <value>更新检查失败!</value>
   </data>
   <data name="DbgInfo" xml:space="preserve">
     <value>lastHwnd: {0}
 GetForegroundWindow(): {1}
 isMainLoopRunning: {2}
 
-lastHwnd: The handle of the last themed window. 0 = none yet.
-GetForegroundWindow(): The handle of the current foreground window.
-isMainLoopRunning: Whether the main theming loop thread is currently active.</value>
+lastHwnd: 上一个应用主题的窗口句柄。0 = 尚无。
+GetForegroundWindow(): 当前前台窗口的句柄。
+isMainLoopRunning: 主题主循环线程当前是否在运行。</value>
   </data>
   <data name="DbgInfoTitle" xml:space="preserve">
-    <value>BasicThemer 2 Debug Info</value>
+    <value>BasicThemer 2 调试信息</value>
   </data>
   <data name="CmdHelp" xml:space="preserve">
-    <value>showui: Show the UI on startup.
-donthide: Don't hide the UI ever.
-hidetray: Hide the tray icon completely.
-noadminalert: Don't ask for admin privileges.
-enablelogging: Enable logging on startup.
-noautoupdchk: Disable automatic update check.
-help, ?: Show this message and exit.
-version, ver: Show version number and exit.</value>
+    <value>showui: 启动时显示界面。
+donthide: 永远不隐藏界面。
+hidetray: 完全隐藏托盘图标。
+noadminalert: 启动时不请求管理员权限。
+enablelogging: 启动时启用日志。
+noautoupdchk: 禁用自动检查更新。
+help, ?: 显示此消息并退出。
+version, ver: 显示版本号并退出。</value>
   </data>
   <data name="CmdHelpTitle" xml:space="preserve">
-    <value>BasicThemer 2 Command-Line Arguments</value>
+    <value>BasicThemer 2 命令行参数</value>
   </data>
   <data name="CmdVersion" xml:space="preserve">
-    <value>Version {0}</value>
+    <value>版本 {0}</value>
   </data>
   <data name="AdminPrompt" xml:space="preserve">
-    <value>BasicThemer 2 requires administrator privileges in order to apply the basic theme to other programs which also run as administrator.
+    <value>BasicThemer 2 需要管理员权限才能将基础主题应用到同样以管理员身份运行的其他程序。
 
-Click "No" to continue without administrator privileges; basic theme borders will not be applied to programs running as administrator.</value>
+点击“否”将继续以无管理员权限运行；届时将无法为以管理员身份运行的程序应用基础主题边框。</value>
   </data>
   <data name="AdminAborted" xml:space="preserve">
-    <value>Relaunch was aborted. Proceeding without Administrator privileges. Other applications running as administrator will not receive basic theme borders.</value>
+    <value>重新启动已被取消。已在无管理员权限下继续运行。以管理员身份运行的其他程序将不会获得基础主题边框。</value>
   </data>
   <data name="VersionLine" xml:space="preserve">
     <value>BasicThemer 2 v{ver} by Ingan121</value>
   </data>
   <data name="Watermark" xml:space="preserve">
-    <value>Fork by KittyCathy332</value>
+    <value>Fork by 萌之大喵</value>
   </data>
   <data name="DebugBtn" xml:space="preserve">
-    <value>Debug</value>
+    <value>调试信息</value>
   </data>
   <data name="ForkLink" xml:space="preserve">
     <value>Fork</value>
@@ -250,6 +191,6 @@ Click "No" to continue without administrator privileges; basic theme borders wil
     <value>BasicThemer 2 by Ingan121</value>
   </data>
   <data name="MsgAlreadyRunning" xml:space="preserve">
-    <value>BasicThemer 2 [{0}] is already running. Only one instance is allowed.</value>
+    <value>BasicThemer 2 [{0}] 已在运行，仅允许启动一个实例。</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -21,28 +21,49 @@ namespace BasicThemer2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Initialize localization before any UI text is shown
+            global::BasicThemer2.BasicThemer2.InitLanguageSetting();
+
             string[] args = Environment.GetCommandLineArgs();
-            if (args.Any(x => x.Contains("help")) || args.Any(x => x.Contains("?"))) {
-                MessageBox.Show("showui: Show the UI on startup.\ndonthide: Don't hide the UI ever.\nhidetray: Hide the tray icon completely.\nnoadminalert: Don't ask for admin privileges.\nenablelogging: Enable logging on startup.\nnoautoupdchk: Disable automatic update check.\nhelp, ?: Show this message and exit.\nversion, ver: Show version number and exit.", "BasicThemer 2 Command-Line Arguments");
+            if (args.Any(x => x.Contains("help")) || args.Any(x => x.Contains("?")))
+            {
+                MessageBox.Show(Strings.CmdHelp, Strings.CmdHelpTitle);
                 return;
             }
 
             if (args.Any(x => x.Contains("ver")))
             {
-                MessageBox.Show("Version " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion, "BasicThemer 2");
+                MessageBox.Show(string.Format(Strings.CmdVersion, FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion), Strings.AppName);
                 return;
             }
 
-            if (!IsAdministrator() && !args.Any(x => x.Contains("noadminalert")))
+            // Single-instance guard. The mutex name differs per target framework so that
+            // the .NET 4.0 build and the .NET 4.8 build are each limited to one instance.
+#if MODERN
+            string frameworkTag = "Modern";
+#else
+            string frameworkTag = "Legacy";
+#endif
+            using (var instanceMutex = new Mutex(true, "Local\\BasicThemer2" + frameworkTag, out bool createdNew))
             {
-                if (MessageBox.Show("BasicThemer 2 requires administrator privileges in order to apply the basic theme to other programs which have administrator privileges. Relaunch as administrator?", "BasicThemer 2", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (!createdNew)
                 {
-                    RerunAsAdministrator();
-                    MessageBox.Show("Relaunch was aborted. Proceeding without Administrator privileges. Other applications running as administrator will not receive basic theme borders.", "BasicThemer 2");
+                    MessageBox.Show(string.Format(Strings.MsgAlreadyRunning, frameworkTag), Strings.AppName);
+                    return;
                 }
+
+                if (!IsAdministrator() && !args.Any(x => x.Contains("noadminalert")))
+                {
+                    if (MessageBox.Show(Strings.AdminPrompt, Strings.AppName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        RerunAsAdministrator();
+                        MessageBox.Show(Strings.AdminAborted, Strings.AppName);
+                    }
+                }
+
+                Application.Run(new BasicThemer2());
             }
-            
-            Application.Run(new BasicThemer2());
         }
 
         public static bool IsAdministrator()

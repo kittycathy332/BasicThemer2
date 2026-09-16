@@ -1,6 +1,7 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,6 +27,11 @@ namespace BasicThemer2
         public bool isMainLoopRunning = false;
         public IntPtr lastHwnd;
         public bool isDebugBuild = false;
+
+        // Localization (stored in a dedicated registry key, independent of the original software settings)
+        private const string LangRegPath = "SOFTWARE\\BasicThemer2\\Localization";
+        private const string RunRegPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+        private bool _isSettingLang = false;
 
         // Configurations
         public int timerSpeed = 100;
@@ -55,8 +61,9 @@ namespace BasicThemer2
         {
             InitializeComponent();
 
-            // Show current version number on UI
-            InfoLabel.Text = InfoLabel.Text.Replace("{ver}", ver.ToString());
+            // Initialize language and apply localized Texts
+            InitLanguageSetting();
+            ApplyLanguage();
 
             // Load configurations from registry
             if (bt2ConfReg.GetValueNames().Contains("Exclusions"))
@@ -121,6 +128,9 @@ namespace BasicThemer2
                 bt2ConfReg.SetValue("AutoUpdChk", 1, RegistryValueKind.DWord);
             }
 
+            // Reflect whether the app is registered to start with Windows
+            AutoStartChkBox.Checked = IsStartupEnabled("BasicThemer2");
+
             // Start main window detection loop
             StartMainLoop();
 
@@ -159,6 +169,161 @@ namespace BasicThemer2
         #endregion
 
         #region Functions
+
+        /// <summary>
+        /// Reads the language preference from the dedicated registry key; falls back to the
+        /// system UI language (Chinese) on first run. Never touches Ingan121\BasicThemer2.
+        /// </summary>
+        public static void InitLanguageSetting()
+        {
+            string saved = null;
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\BasicThemer2\\Localization");
+                saved = key.GetValue("Language") as string;
+                key.Close();
+            }
+            catch { }
+
+            if (saved == "zh" || saved == "en")
+            {
+                Strings.Culture = new System.Globalization.CultureInfo(saved == "zh" ? "zh-CN" : "en");
+            }
+            else
+            {
+                bool isChinese = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("zh");
+                Strings.Culture = new System.Globalization.CultureInfo(isChinese ? "zh-CN" : "en");
+            }
+        }
+
+        /// <summary>
+        /// (Re-)applies all localized UI texts for the active culture.
+        /// </summary>
+        private void ApplyLanguage()
+        {
+            ExclsOrInclsLabel.Text = WhitelistModeChkBox.Checked ? Strings.IncLabels : Strings.ExclsOrInclsLabel;
+            notifyIcon1.Text = Strings.AppName;
+            showToolStripMenuItem.Text = Strings.Show;
+            exitToolStripMenuItem.Text = Strings.Exit;
+            ExitWndBtn.Text = Strings.Exit;
+            BrandLabel.Text = Strings.BrandLine;
+            InfoLabel.Text = "v" + ver.ToString();
+#if MODERN
+            FrameworkTagLabel.Text = "Modern";
+#else
+            FrameworkTagLabel.Text = "Legacy";
+#endif
+            RevModeChkBox.Text = Strings.RevertingMode;
+            ExclExtWndsChkBox.Text = Strings.ExclExtWnds;
+            PauseChkBox.Text = Strings.Pause;
+            linkLabel1.Text = Strings.GitHub;
+            DoLogChkBox.Text = Strings.EnableLogging;
+            OpenLogBtn.Text = Strings.OpenLogFile;
+            AddBtn.Text = Strings.Add;
+            DelBtn.Text = Strings.Delete;
+            label1.Text = Strings.TimerSpeed;
+            MsOrErrLabel.Text = Strings.Ms;
+            WhitelistModeChkBox.Text = Strings.WhitelistMode;
+            AutoUpdChkChkBox.Text = Strings.AutoUpdChk;
+            UpdChkBtn.Text = Strings.CheckForUpdates;
+            LanguageLabel.Text = Strings.Language;
+            WatermarkLabel.Text = Strings.Watermark;
+            dbgBtn.Text = Strings.DebugBtn;
+            ForkLinkLabel.Text = Strings.ForkLink;
+            AutoStartChkBox.Text = Strings.StartWithWindows;
+            #if MODERN
+            this.Text = Strings.AppName + " - Modern";
+#else
+            this.Text = Strings.AppName + " - Legacy";
+#endif
+
+            // Reflow controls whose positions depend on localized text length so
+            // no label/checkbox overlaps its following control in any language
+            LayoutForLanguage();
+
+            // Sync the language combo (guard against re-entrant save triggers)
+            bool oldGuard = _isSettingLang;
+            _isSettingLang = true;
+            bool isChinese = Strings.Culture != null && Strings.Culture.Name.StartsWith("zh");
+            LangCombo.SelectedIndex = isChinese ? 1 : 0;
+            _isSettingLang = oldGuard;
+        }
+
+        /// <summary>
+        /// Reflows controls whose positions depend on localized text length so that no
+        /// label/checkbox overlaps the control that follows it in any language.
+        /// </summary>
+        private void LayoutForLanguage()
+        {
+            // Push the language combo right after its label
+            LangCombo.Left = LanguageLabel.Right + 4;
+
+            // Move the "check for updates" button after the auto-update checkbox and
+            // size it to fit its own text, while keeping it inside the form bounds
+            int btnX = AutoUpdChkChkBox.Right + 4;
+            int btnWidth = TextRenderer.MeasureText(UpdChkBtn.Text, UpdChkBtn.Font).Width + 16;
+            int maxWidth = this.ClientSize.Width - btnX - 8;
+            if (btnWidth > maxWidth) btnWidth = maxWidth;
+            if (btnWidth < 60) btnWidth = 60;
+            UpdChkBtn.Left = btnX;
+            UpdChkBtn.Width = btnWidth;
+
+            // Stretch the upper UI to fill the window width: the exclusion box and the
+            // whitelist checkbox follow the current window width
+            ExclListBox.Width = this.ClientSize.Width - 24;
+            WhitelistModeChkBox.Left = this.ClientSize.Width - WhitelistModeChkBox.Width - 10;
+
+            // Row: [文本框] ... [Add] [Delete]  两个按钮贴右，文本框拉长
+            // 先按当前本地化文本测量按钮宽度，保证不会文字被截断
+            int addBtnW = TextRenderer.MeasureText(AddBtn.Text, AddBtn.Font).Width + 20;
+            int delBtnW = TextRenderer.MeasureText(DelBtn.Text, DelBtn.Font).Width + 20;
+            if (addBtnW < 48) addBtnW = 48;
+            if (delBtnW < 60) delBtnW = 60;
+            AddBtn.Width = addBtnW;
+            DelBtn.Width = delBtnW;
+
+            DelBtn.Left = this.ClientSize.Width - DelBtn.Width - 12;
+            AddBtn.Left = DelBtn.Left - AddBtn.Width - 4;
+            ExclAddNameBox.Width = AddBtn.Left - ExclAddNameBox.Left - 4;
+
+            // Reflow the Timer speed row: label grows with its localized text, then the
+            // numeric box and "ms" suffix follow it from left to right
+            TimerSpeedBox.Left = label1.Right + 4;
+            MsOrErrLabel.Left = TimerSpeedBox.Right + 4;
+
+            // Put the framework tag right after the version text
+            FrameworkTagLabel.Left = InfoLabel.Right + 4;
+
+            // Place each bottom hyperlink right after its label text, shifting automatically
+            // with the localized text length
+            linkLabel1.Left = BrandLabel.Right + 4;
+            ForkLinkLabel.Left = WatermarkLabel.Right + 4;
+
+            // Right-align the debug button on the language row so it never overlaps the combo
+            dbgBtn.Left = this.ClientSize.Width - dbgBtn.Width - 10;
+            dbgBtn.Top = LangCombo.Top;
+        }
+
+        /// <summary>
+        /// Switches language live when the user changes the combo; persists to the dedicated key.
+        /// </summary>
+        private void LangCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isSettingLang) return;
+
+            string lang = LangCombo.SelectedIndex == 1 ? "zh" : "en";
+            Strings.Culture = new System.Globalization.CultureInfo(lang == "zh" ? "zh-CN" : "en");
+
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\BasicThemer2\\Localization");
+                key.SetValue("Language", lang, RegistryValueKind.String);
+                key.Close();
+            }
+            catch { }
+
+            ApplyLanguage();
+        }
 
         private void StartMainLoop()
         {
@@ -266,7 +431,7 @@ namespace BasicThemer2
             {
                 new Thread(() =>
                 {
-                    MessageBox.Show("Log file doesn't exist!", "BasicThemer 2");
+                    MessageBox.Show(Strings.MsgLogFileNotExist, Strings.AppName);
                 }).Start();
             }
         }
@@ -417,7 +582,12 @@ namespace BasicThemer2
 
         private void dbgBtn_Click(object sender, EventArgs e) // Small debug button located at bottom right
         {
-            MessageBox.Show("lastHwnd: " + lastHwnd.ToString() + ", GetForegroundWindow(): " + GetForegroundWindow().ToString() + ", isMainLoopRunning: " + isMainLoopRunning.ToString());
+            MessageBox.Show(string.Format(Strings.DbgInfo, lastHwnd.ToString(), GetForegroundWindow().ToString(), isMainLoopRunning.ToString()), Strings.DbgInfoTitle);
+        }
+
+        private void ForkLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/kittycathy332/BasicThemer2");
         }
 
         private void TimerSpeedBox1_TextChanged(object sender, EventArgs e)
@@ -434,11 +604,11 @@ namespace BasicThemer2
                 timerSpeed = timerSpeedInput;
                 bt2ConfReg.SetValue("TimerSpeed", timerSpeed, RegistryValueKind.DWord);
                 log("[TimerSpeed: " + timerSpeed.ToString() + "]", true);
-                MsOrErrLabel.Text = "ms";
+                MsOrErrLabel.Text = Strings.Ms;
             }
             catch
             {
-                MsOrErrLabel.Text = "Err!";
+                MsOrErrLabel.Text = Strings.Err;
             }
         }
 
@@ -460,11 +630,11 @@ namespace BasicThemer2
         {
             if (WhitelistModeChkBox.Checked)
             {
-                ExclsOrInclsLabel.Text = "Inclusions";
+                ExclsOrInclsLabel.Text = Strings.IncLabels;
             }
             else
             {
-                ExclsOrInclsLabel.Text = "Exclusions";
+                ExclsOrInclsLabel.Text = Strings.ExclsOrInclsLabel;
             }
             
             log("[Whitelist mode: " + WhitelistModeChkBox.Checked.ToString() + "]", true);
@@ -475,6 +645,48 @@ namespace BasicThemer2
         {
             log("[Automatic update check: " + AutoUpdChkChkBox.Checked.ToString() + "]", true);
             bt2ConfReg.SetValue("AutoUpdChk", AutoUpdChkChkBox.Checked, RegistryValueKind.DWord);
+        }
+
+        /// <summary>
+        /// Toggles the "start with Windows" registration in HKCU Run.
+        /// </summary>
+        private void AutoStartChkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (RegistryKey runKey = Registry.CurrentUser.OpenSubKey(RunRegPath, true))
+                {
+                    if (AutoStartChkBox.Checked)
+                    {
+                        runKey.SetValue("BasicThemer2", "\"" + Application.ExecutablePath + "\"");
+                    }
+                    else
+                    {
+                        runKey.DeleteValue("BasicThemer2", false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log("[Auto start error: " + ex.Message + "]", true);
+            }
+            log("[Auto start: " + AutoStartChkBox.Checked.ToString() + "]", true);
+        }
+
+        private bool IsStartupEnabled(string valueName)
+        {
+            try
+            {
+                using (RegistryKey runKey = Registry.CurrentUser.OpenSubKey(RunRegPath, false))
+                {
+                    if (runKey == null) return false;
+                    return runKey.GetValue(valueName) != null;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private string getExclListAsString()
@@ -489,7 +701,22 @@ namespace BasicThemer2
 
         private void UpdChkBtn_Click(object sender, EventArgs e)
         {
-            updateCheck(true);
+            UpdChkBtn.Enabled = false;
+            UpdChkBtn.Text = Strings.CheckingForUpdates;
+            LayoutForLanguage();
+
+            updateCheck(true, () =>
+            {
+                // completion runs on the worker thread; restore the button on the UI thread
+                if (!IsHandleCreated) return;
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    if (IsDisposed) return;
+                    UpdChkBtn.Text = Strings.CheckForUpdates;
+                    UpdChkBtn.Enabled = true;
+                    LayoutForLanguage();
+                });
+            });
         }
 
         private void saveExclList()
@@ -497,39 +724,64 @@ namespace BasicThemer2
             bt2ConfReg.SetValue("Exclusions", getExclListAsString(), RegistryValueKind.String);
         }
 
-        private void updateCheck(bool alertLatest = false)
+        private void updateCheck(bool alertLatest = false, Action onComplete = null)
         {
             Task.Factory.StartNew(() =>
             {
                 log("[Checking for updates...]", true);
                 try
                 {
-                    WebClient wc = new WebClient();
-                    string latestVerStr = wc.DownloadString("https://raw.githubusercontent.com/Ingan121/BasicThemer2/master/latest.txt");
-                    //string latestVerStr = wc.DownloadString("http://localhost/latest.txt");
-                    log("[Lastest version found: " + latestVerStr + "]", true);
+                    // raw.githubusercontent.com requires TLS 1.2, which is not enabled by
+                    // default on .NET 4.0. Force it on (moniker 3072 = Tls12) before connecting.
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)((int)ServicePointManager.SecurityProtocol | 3072);
 
-                    Version latestVer = new Version(latestVerStr);
-                    int compare = ver.CompareTo(latestVer);
+                    Version version = null;
+                    var req = (HttpWebRequest)WebRequest.Create("https://raw.githubusercontent.com/kittycathy332/BasicThemer2/master/latest.txt");
+                    // GitHub rejects requests without a User-Agent; give it an explicit short
+                    // timeout so the check always returns promptly instead of hanging
+                    req.UserAgent = "BasicThemer2/" + ver.ToString();
+                    req.Timeout = 5000;
+                    req.ReadWriteTimeout = 5000;
+                    using (var resp = (HttpWebResponse)req.GetResponse())
+                    using (var sr = new StreamReader(resp.GetResponseStream()))
+                    {
+                        string latestVerStr = sr.ReadToEnd().Trim(); // the version file ends with a newline
+                        Version parsed;
+                        if (Version.TryParse(latestVerStr, out parsed))
+                        {
+                            version = parsed;
+                        }
+                    }
+                    if (version == null)
+                    {
+                        throw new InvalidDataException("Unrecognized version string");
+                    }
+                    log("[Lastest version found: " + version + "]", true);
+
+                    int compare = ver.CompareTo(version);
 
                     if (compare < 0)
                     {
-                        if (MessageBox.Show("New version of BasicThemer 2 is available. Download it now?", "BasicThemer 2", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        // A newer version is available -> use the exclamation sound
+                        System.Media.SystemSounds.Exclamation.Play();
+                        if (MessageBox.Show(Strings.MsgNewVerAvailable, Strings.AppName, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            Process.Start("https://github.com/Ingan121/BasicThemer2/releases");
+                            Process.Start("https://github.com/kittycathy332/BasicThemer2/releases");
                         }
                     }
                     else
                     {
                         if (alertLatest)
                         {
+                            // Up to date (or local build newer) -> use the asterisk sound
+                            System.Media.SystemSounds.Asterisk.Play();
                             if (compare == 0)
                             {
-                                MessageBox.Show("You are running the latest version of BasicThemer 2.", "BasicThemer 2");
+                                MessageBox.Show(Strings.MsgLatestVersion, Strings.AppName);
                             }
                             else
                             {
-                                MessageBox.Show("You are running a unreleased version of BasicThemer 2.", "BasicThemer 2");
+                                MessageBox.Show(Strings.MsgUnreleasedVersion, Strings.AppName);
                             }
                         }
                     }
@@ -537,7 +789,17 @@ namespace BasicThemer2
                 catch (Exception ex)
                 {
                     log(ex.ToString(), true);
-                    MessageBox.Show("Update check failed!", "BasicThemer 2");
+                    // On an automatic check only log the failure; only the manual
+                    // "check for updates" button should alert the user about it
+                    if (alertLatest)
+                    {
+                        System.Media.SystemSounds.Exclamation.Play();
+                        MessageBox.Show(Strings.MsgUpdateFailed, Strings.AppName);
+                    }
+                }
+                finally
+                {
+                    if (onComplete != null) onComplete();
                 }
             });
         }
