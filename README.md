@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/Bitmap603.ico" alt="" width="30" height="30" style="vertical-align: middle; display: inline-block; margin-right: 12px;" /><b style="font-size: 2.0em; vertical-align: middle;">BasicThemer 2</b>
+<h1 align="center"><img src="assets/Bitmap603.ico" alt="" width="32" height="32" /> BasicThemer 2</h1>
 
 **A C# / .NET port of the classic Win7 basic theme applied to Windows Vista–11 — without disabling DWM.**
 
@@ -25,7 +25,13 @@
 
 ## 📸 Screenshot
 
-![Screenshot](https://raw.githubusercontent.com/kittycathy332/BasicThemer2/master/assets/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7(241).png)
+<div align="center">
+
+<img src="docs/imgs/10.png" alt="Windows 10" width="720" />
+
+<img src="docs/imgs/8x.PNG" alt="Windows 8" width="240" />&nbsp;&nbsp;<img src="docs/imgs/7.PNG" alt="Windows 7" width="240" />&nbsp;&nbsp;<img src="docs/imgs/Vista.JPG" alt="Windows Vista" width="240" />
+
+</div>
 
 ---
 
@@ -33,10 +39,10 @@
 
 Built with **Visual Studio 2019**. Two .NET Framework targets are produced by `build.bat`:
 
-| Target          | Output                            |
-|-----------------|-----------------------------------|
-| .NET Framework 4.0 | `bin\v4.0\Release\BasicThemer2.exe` |
-| .NET Framework 4.8 | `bin\v4.8\Release\BasicThemer2.exe` |
+| Target          | Tag      | Output                            |
+|-----------------|----------|-----------------------------------|
+| .NET Framework 4.0 | `Legacy` | `bin\v4.0\Release\BasicThemer2.exe` |
+| .NET Framework 4.8 | `Modern` | `bin\v4.8\Release\BasicThemer2.exe` |
 
 Both versions are **self-contained single-file** executables (localization is embedded — no extra DLLs required).
 
